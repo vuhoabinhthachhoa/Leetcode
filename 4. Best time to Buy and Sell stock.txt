@@ -1,0 +1,18 @@
+#include<vector>
+#include<iostream>
+using namespace std;
+int maxProfit(vector<int>& prices) {
+	int res = 0;
+	int buyPrice = prices[0];
+	int n = prices.size();
+	for (int i = 1; i < n; i++){
+		if (prices[i] > buyPrice) res = max(res, prices[i] - buyPrice);
+		else buyPrice = prices[i];
+	}
+	return res;
+}
+int main() {
+	vector<int>nums = { 1,2,0,3,4,0 };
+	cout << maxProfit(nums);
+	return 0;
+}
