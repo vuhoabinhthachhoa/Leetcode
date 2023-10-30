@@ -11,19 +11,15 @@
  */
 class Solution {
 public:
-    void inOrderTraversal(TreeNode* root, vector<int>& ds) {
-	if (!root) return;
-	inOrderTraversal(root->left, ds);
-	ds.push_back(root->val);
-	inOrderTraversal(root->right, ds);
+ bool help(TreeNode* root, TreeNode* minNode = nullptr, TreeNode* maxNode = nullptr) {
+	if (!root) return true;
+	if (minNode && root->val <= minNode->val || maxNode && root->val >= maxNode->val)
+		return false;
+	// all elements of the left tree must be less than root->val (root-val is the maxNode of the left tree)
+	// all elements of the right tree must be greater than root->val (root-val is the minNode of the right tree)
+	return help(root->left, minNode, root) && help(root->right, root, maxNode);
 }
 bool isValidBST(TreeNode* root) {
-	vector<int>ds;
-	inOrderTraversal(root, ds);
-	int n = ds.size() - 1;
-	for (int i = 0; i < n; i++){
-		if (ds[i] >= ds[i + 1]) return false;
-	}
-	return true;
+	return help(root);
 }
 };
