@@ -11,7 +11,7 @@
  */
 class Solution {
 public:
- TreeNode* help(vector<int> &preorder, int pre_start, vector<int> &inorder, int in_start, int in_end, unordered_map<int, int> &mp) {
+ TreeNode* help(vector<int>& preorder, int pre_start, vector<int>& inorder, int in_start, int in_end, unordered_map<int, int>& mp) {
 	
 	if (in_start > in_end) {
 		return nullptr;
