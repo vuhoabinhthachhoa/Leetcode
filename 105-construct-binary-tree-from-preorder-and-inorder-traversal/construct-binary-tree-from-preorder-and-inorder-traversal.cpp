@@ -11,31 +11,35 @@
  */
 class Solution {
 public:
-  TreeNode* constructTree(vector < int >& preorder, int preStart, int preEnd, vector
-	 < int >& inorder, int inStart, int inEnd, unordered_map < int, int >& mp) {
-	 if (preStart > preEnd || inStart > inEnd) return NULL;
+  TreeNode* help(vector<int> &preorder, int pre_start, int pre_end, vector<int> &inorder, int in_start, int in_end, unordered_map<int, int> &mp) {
+	
+	if (pre_start > pre_end || in_start > in_end) {
+		return nullptr;
+	}
 
-	 TreeNode* root = new TreeNode(preorder[preStart]);
-	 int elem = mp[root->val];
-	 int nElem = elem - inStart;
+	TreeNode* newNode = new TreeNode(preorder[pre_start]);
 
-	 root->left = constructTree(preorder, preStart + 1, preStart + nElem, inorder,
-		 inStart, elem - 1, mp);
-	 root->right = constructTree(preorder, preStart + nElem + 1, preEnd, inorder,
-		 elem + 1, inEnd, mp);
+	if (in_start == in_end) {
+		return newNode;
+	}
 
-	 return root;
- }
+	// the position of current TreeNode in inorder vector.
+	int curr_pos = mp[newNode->val]; 
 
- TreeNode* buildTree(vector < int >& preorder, vector < int >& inorder) {
-	 int preStart = 0, preEnd = preorder.size() - 1;
-	 int inStart = 0, inEnd = inorder.size() - 1;
+	newNode->left = help(preorder, pre_start + 1, pre_end + (curr_pos - in_start + 1), inorder, in_start, curr_pos - 1, mp);
+	newNode->right = help(preorder, pre_start + (curr_pos - in_start + 1), pre_end, inorder, curr_pos + 1, in_end, mp);
 
-	 unordered_map < int, int > mp;
-	 for (int i = inStart; i <= inEnd; i++) {
-		 mp[inorder[i]] = i;
-	 }
+	return newNode;
+}
 
-	 return constructTree(preorder, preStart, preEnd, inorder, inStart, inEnd, mp);
- }
+TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+
+	// store the position of all elements in inorder vector.
+	unordered_map<int, int> mp;
+	for (int i = 0; i < inorder.size(); i++) {
+		mp[inorder[i]] = i;
+	}
+
+	return help(preorder, 0, preorder.size(), inorder, 0, inorder.size() - 1, mp);
+}
 };
