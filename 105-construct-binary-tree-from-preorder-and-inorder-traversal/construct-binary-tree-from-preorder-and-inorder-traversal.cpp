@@ -11,9 +11,9 @@
  */
 class Solution {
 public:
-  TreeNode* help(vector<int> &preorder, int pre_start, int pre_end, vector<int> &inorder, int in_start, int in_end, unordered_map<int, int> &mp) {
+ TreeNode* help(vector<int> &preorder, int pre_start, vector<int> &inorder, int in_start, int in_end, unordered_map<int, int> &mp) {
 	
-	if (pre_start > pre_end || in_start > in_end) {
+	if (in_start > in_end) {
 		return nullptr;
 	}
 
@@ -26,8 +26,8 @@ public:
 	// the position of current TreeNode in inorder vector.
 	int curr_pos = mp[newNode->val]; 
 
-	newNode->left = help(preorder, pre_start + 1, pre_end + (curr_pos - in_start + 1), inorder, in_start, curr_pos - 1, mp);
-	newNode->right = help(preorder, pre_start + (curr_pos - in_start + 1), pre_end, inorder, curr_pos + 1, in_end, mp);
+	newNode->left = help(preorder, pre_start + 1, inorder, in_start, curr_pos - 1, mp);
+	newNode->right = help(preorder, pre_start + (curr_pos - in_start + 1), inorder, curr_pos + 1, in_end, mp);
 
 	return newNode;
 }
@@ -40,6 +40,6 @@ TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
 		mp[inorder[i]] = i;
 	}
 
-	return help(preorder, 0, preorder.size(), inorder, 0, inorder.size() - 1, mp);
+	return help(preorder, 0, inorder, 0, inorder.size() - 1, mp);
 }
 };
