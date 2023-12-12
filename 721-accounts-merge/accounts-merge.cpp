@@ -2,8 +2,12 @@ class Solution {
 private:
 	// store the owner of each email
 	unordered_map<string, string> owners;
+	
 	// store the parent of each email
 	unordered_map<string, string> parents;
+
+	unordered_map<string, int> rank;
+	
 	// store the union to which each email belongs.
 	unordered_map<string, set<string>> unions;
 public:
@@ -13,12 +17,38 @@ public:
 		return parents[email] = findUPar(parents[email]);
 	}
 
+	void unionByRank(string u, string v) {
+		string ulp_u = findUPar(u);
+		string ulp_v = findUPar(v);
+
+		// if u and v are in the same component.
+		if (ulp_u == ulp_v) return;
+
+		// connect the smaller component to the bigger one.
+		if (rank[ulp_u] > rank[ulp_v]) {
+			parents[ulp_v] = ulp_u;
+		}
+		else if (rank[ulp_u] < rank[ulp_v]) {
+			parents[ulp_u] = ulp_v;
+		}
+
+		// if two components has the same rank:
+		else {
+			parents[ulp_u] = ulp_v;
+			rank[ulp_v]++;
+		}
+	}
+
 	vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
+		// initialize values
 		for (int i = 0; i < accounts.size(); i++) {
 			for (int j = 1; j < accounts[i].size(); j++) {
 				// initialize parent for each email:
 		        // the initial parent of each email is itself.
 				parents[accounts[i][j]] = accounts[i][j];
+
+				// the initial parent of each email is itself.
+				rank [accounts[i][j]]= 0;
 
 				// set the owner for each email:
 				owners[accounts[i][j]] = accounts[i][0];
@@ -27,13 +57,11 @@ public:
 		
 		// unionize (merge) 
 		for (int i = 0; i < accounts.size(); i++) {
-			// find the root of the union to which the first email belongs
-			string uPar = findUPar(accounts[i][1]);
-
+			// we assume that each account itself is a component with:
+			// the first emails is the root and it connects to every the other emails.
+			// so that we assume there is a edge between the first emails and each the other email 
 			for (int j = 2; j < accounts[i].size(); j++) {
-			    // connect the first email's union to the other emails's union by
-				// connecting them root. 
-				parents[findUPar(accounts[i][j])] = uPar;
+				unionByRank(accounts[i][1], accounts[i][j]);
 			}
 		}
 
