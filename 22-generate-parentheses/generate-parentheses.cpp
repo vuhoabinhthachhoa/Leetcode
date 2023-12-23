@@ -7,7 +7,7 @@ public:
 		return;
 	}
 
-	if (opens > closes && closes < n) {
+	if (opens > closes) {
 		ds.push_back(')');
 		help(res, n, ds, opens, closes + 1);
 		ds.pop_back();
