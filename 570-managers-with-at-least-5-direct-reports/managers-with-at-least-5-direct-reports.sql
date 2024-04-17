@@ -1,10 +1,6 @@
-/* Write your T-SQL query statement below */
-select e1.name 
-from Employee e1
-where e1.id in (
-    select e2.managerId 
-    from Employee e2
-    group by managerId
-    having count(id) >= 5
-)
+SELECT a.name 
+FROM Employee a 
+JOIN Employee b ON a.id = b.managerId 
+GROUP BY b.managerId, a.name
+HAVING COUNT(*) >= 5
 
