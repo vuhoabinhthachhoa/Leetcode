@@ -1,20 +1,20 @@
 class Solution {
 public:
-    int removeDuplicates(vector<int>& nums) {
+   // Intuition: we move all the unique value to the left of array
+// j is used to keep track of the last index of the unique elements
+// i is the current iterator
+int removeDuplicates(vector<int>& nums) {
     int n = nums.size();
-    unordered_map<int, bool> isExist;
+    int j = 1; // we do not need to consider about nums[0]
 
-    for (int i = 0; i < n; i++) {
-        if (isExist[nums[i]]) {
-            nums.erase(nums.begin() + i);
-            i--;
-            n--;
-        }
-        else {
-            isExist[nums[i]] = true;
+    for (int i = 1; i < n; i++) {
+        if (nums[i] != nums[i - 1]) { // that means we've encountered a new unique element
+            nums[j] = nums[i]; // we move this unique element to the end of the unique elements
+            j++;
         }
     }
-
-    return nums.size();
+    
+    return j;
 }
+
 };
