@@ -7,14 +7,15 @@ public:
     vector<bool> isMoveRow(m, false);
     vector<bool> isMoveCol(n, false);
 
-    // first col
+    // change the left most bit to 1 has the most increase
     for (int i = 0; i < m; i++) {
         if (grid[i][0] == 0) {
             isMoveRow[i] = true;
         }
     }
 
-    // row 1 -> n - 1
+    // traverse from row 1 to row n - 1
+    // if the number of 0 in the column is more than half, then we need to move the column
     for (int i = 1; i < n; i++) {
         int zeroes = 0;
         for (int j = 0; j < m; j++) {
@@ -27,6 +28,7 @@ public:
         }
     }
 
+    // calculate the result
     int res = 0;
     int carry = 0;
     for (int i = n - 1; i >= 0; i--) {
