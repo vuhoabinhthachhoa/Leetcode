@@ -16,6 +16,10 @@ class Solution {
                 currProduct /= nums[left];
                 left++;
             }
+            // right - left + 1 is the number of subarrays of array[left, right] ending at right
+            // for example: 1,2,3,4
+            // there are 4 subarrays ending at 4: [4], [3,4], [2,3,4], [1,2,3,4]
+            // that means if we can add the current number to the subarray, we have additionally right - left + 1 new valid subarrays
             res += right - left + 1;
             right++;
         }
