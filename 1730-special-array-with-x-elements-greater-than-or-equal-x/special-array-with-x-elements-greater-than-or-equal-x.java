@@ -1,7 +1,8 @@
 class Solution {
-    public int specialArray(int[] nums) {
+   public int specialArray(int[] nums) {
         int l = 0;
         int h = nums.length;
+        // we can do binary search in range 0 to nums.length because the answer will always be in this range
         while(l <= h) {
             int mid = l + (h - l) / 2;
             int count = 0;
