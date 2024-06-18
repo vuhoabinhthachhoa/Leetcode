@@ -1,4 +1,5 @@
 class Solution {
+    // similar to IPO problem: https://leetcode.com/problems/ipo/description/
     public int maxProfitAssignment(int[] difficulty, int[] profit, int[] worker) {
         int[][] job = new int[profit.length][2];
         for(int i = 0 ; i < profit.length ; i++) {
@@ -21,4 +22,5 @@ class Solution {
         }
         return maxProfit;
     }
+
 }
