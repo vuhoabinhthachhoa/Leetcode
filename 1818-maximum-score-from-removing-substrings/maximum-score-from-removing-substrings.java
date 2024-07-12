@@ -1,4 +1,5 @@
 class Solution {
+    // Solution: https://youtu.be/r_3a0oG1VcY?si=O5tjsVa0JJkO2ULH
     public int maximumGain(String s, int x, int y) {
         // x: ab, y: ba
         char first, second;
