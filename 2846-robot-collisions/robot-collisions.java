@@ -22,15 +22,21 @@ class Solution {
             }
             // if collision
             else {
+                // loop while there is a collision between left and right robot
                 while(true){
                     int[] leftRobot = st.pop();
                     if(leftRobot[1] > rightRobot[1]) {
+                        // if left robot has more health, right robot is destroyed
+                        // then set the rightRobot as a next robot
                         st.push(new int[]{leftRobot[0], leftRobot[1] - 1, leftRobot[2]});
                         break;
                     }
                     else if(leftRobot[1] < rightRobot[1]) {
+                        // if right robot has more health, left robot is destroyed
+                        // set leftRobot as a next element in the stack and check again
                         rightRobot[1] = rightRobot[1] - 1;
-                        // if there is no collision anymore
+                        // if stack is empty or the left robot does not move to the right,
+                        // there is no collision anymore, then push the right robot to the stack and move to the next robot
                         if(st.empty() || st.peek()[2] != 1){
                             st.push(new int[]{rightRobot[0], rightRobot[1], rightRobot[2]});
                             break;
@@ -44,6 +50,7 @@ class Solution {
             i++;
         }
 
+        // we have to use a map to store the corresponding health of the robot at the position
         Map<Integer, Integer> map = new HashMap<>();
         while(!st.empty()) {
             map.put(st.peek()[0], st.peek()[1]);
