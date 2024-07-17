@@ -14,97 +14,78 @@
  * }
  */
 class Solution {
-     public boolean findStartNode(TreeNode root, int startValue, Stack<TreeNode>path ) {
+    public TreeNode lowestCommonAncestor(TreeNode root, int p, int q) {
         if(root == null) {
-            return false;
+            return null;
         }
+        if(root.val == p|| root.val == q) {
+            return root;
+        }
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        if(left == null && right == null) {
+            return null;
+        }
+        if(left != null && right != null) {
+            return root;
+        }
+        if(left != null) {
+            return left;
+        }
+        return right;
+    }
+    boolean findStartNode(TreeNode root, int startValue, StringBuilder path) {
         if(root.val == startValue) {
             return true;
         }
-
-        if (root.left != null) {
-            path.push(root.left);
+        if(root.left != null) {
+            path.append('U');
             if(findStartNode(root.left, startValue, path)) {
                 return true;
             }
-            path.pop();
+            path.deleteCharAt(path.length() - 1);
         }
-
-        if (root.right != null) {
-            path.push(root.right);
+        if(root.right != null) {
+            path.append('U');
             if(findStartNode(root.right, startValue, path)) {
                 return true;
             }
-            path.pop();
+            path.deleteCharAt(path.length() - 1);
         }
 
         return false;
     }
 
-    public boolean findDown(TreeNode root, int destValue, StringBuilder path) {
-        if(root == null) {
-            return false;
-        }
+    boolean findDestNode(TreeNode root, int destValue, StringBuilder path) {
         if(root.val == destValue) {
             return true;
         }
         if(root.left != null) {
             path.append('L');
-            if(findDown(root.left, destValue, path)) {
+            if(findDestNode(root.left, destValue, path)) {
+                return true;
+            }
+            path.deleteCharAt(path.length() - 1);
+        }
+        if(root.right != null) {
+            path.append('R');
+            if(findDestNode(root.right, destValue, path)) {
                 return true;
             }
             path.deleteCharAt(path.length() - 1);
         }
 
-        if(root.right != null) {
-            path.append('R');
-            if(findDown(root.right, destValue, path)) {
-                return true;
-            }
-            path.deleteCharAt(path.length() - 1);
-        }
         return false;
     }
 
-
     public String getDirections(TreeNode root, int startValue, int destValue) {
-        // find the start Node
-        Stack<TreeNode> st = new Stack<>();
-        st.push(root);
-        findStartNode(root, startValue, st);
+        // find the lowest common ancestor
+       TreeNode LCA = lowestCommonAncestor(root, startValue, destValue);
 
-        TreeNode startNode = st.pop();
-        StringBuilder path = new StringBuilder();
-        if(findDown(startNode, destValue, path)) {
-            return path.toString();
-        }
-        path = new StringBuilder();
-
-        // find up
-        TreeNode curr = startNode;
-        while(true) {
-            TreeNode parent = st.pop();
-            path.append('U');
-            if(parent.val == destValue) {
-                break;
-            }
-            if(parent.left != null && parent.left.val == curr.val) {
-                path.append('R');
-                if(findDown(parent.right, destValue, path)) {
-                    break;
-                }
-                path.deleteCharAt(path.length() - 1);
-            }
-            else {
-                path.append('L');
-                if(findDown(parent.left, destValue, path)) {
-                    break;
-                }
-                path.deleteCharAt(path.length() - 1);
-            }
-            curr = parent;
-        }
-
-        return path.toString();
+       StringBuilder path = new StringBuilder();
+       findStartNode(LCA, startValue, path);
+       findDestNode(LCA, destValue, path);
+       return path.toString();
     }
+
 }
