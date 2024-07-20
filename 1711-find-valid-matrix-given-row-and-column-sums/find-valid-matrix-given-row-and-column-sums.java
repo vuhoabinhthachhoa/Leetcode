@@ -1,4 +1,5 @@
 class Solution {
+    //Idea: https://www.youtube.com/watch?v=Ks6fGnXkHPg
     public int[][] restoreMatrix(int[] rowSum, int[] colSum) {
         int m = rowSum.length;
         int n = colSum.length;
