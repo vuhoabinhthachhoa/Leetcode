@@ -1,9 +1,12 @@
 class Solution {
+    // The only hint is to use topological sorting. I have done the rest by myself.
     public int[][] buildMatrix(int k, int[][] rowConditions, int[][] colConditions) {
         int[][] res = new int[k][k];
         // apply topo sort on colConditions
+        // leftsCount[i] = number of elements that must be to the left of i
         int[] leftsCount = new int[k + 1];
-
+        
+        // rights[i] = list of elements that must be to the right of i
         ArrayList<Integer>[] rights = new ArrayList[k + 1];
         for(int i = 0; i < rights.length; i++) {
             rights[i] = new ArrayList<>();
