@@ -1,4 +1,6 @@
 class Solution {
+    // please check out the explanation in GRAPH folder for better understanding
+    // we divide each square into two parts: the first half and the second half
     class DisjointSetBySize {
     private int[] parent;
     private int[] size;
