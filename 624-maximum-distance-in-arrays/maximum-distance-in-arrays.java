@@ -26,6 +26,9 @@ class Solution {
                 secMin = first;
             }
         }
+        // if the max and min are in the same array
+        // we choose the second max or second min from another array
+        // max - sexMax > secMin - min : this means we can achieve the higher difference by choosing the second min than choosing the second max
 
         if(indMax != indMin) {
             return Math.abs(max - min);
