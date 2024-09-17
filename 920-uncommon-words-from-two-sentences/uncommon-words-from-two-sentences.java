@@ -1,25 +1,11 @@
 class Solution {
-       public String[] uncommonFromSentences(String s1, String s2) {
+      public String[] uncommonFromSentences(String s1, String s2) {
         Map<String, Integer> mp = new HashMap<>();
-
+        String s = s1 + " " + s2;
         StringBuilder currWord = new StringBuilder();
-        for(int i = 0; i < s1.length() ; i++) {
-            if(s1.charAt(i) == ' ') {
-                if(!currWord.isEmpty()) {
-                    int freq = mp.getOrDefault(currWord.toString(), 0);
-                    mp.put(currWord.toString(), freq + 1);
-                    currWord.setLength(0);
-                }
-            }
-            else {
-                currWord.append(s1.charAt(i));
-            }
-         }
-        mp.put(currWord.toString(), mp.getOrDefault(currWord.toString(), 0) + 1);
-        currWord.setLength(0);
 
-        for(int i = 0; i < s2.length() ; i++) {
-            if(s2.charAt(i) == ' ') {
+        for(int i = 0; i < s.length() ; i++) {
+            if(s.charAt(i) == ' ') {
                 if(!currWord.isEmpty()) {
                     int freq = mp.getOrDefault(currWord.toString(), 0);
                     mp.put(currWord.toString(), freq + 1);
@@ -27,7 +13,7 @@ class Solution {
                 }
             }
             else {
-                currWord.append(s2.charAt(i));
+                currWord.append(s.charAt(i));
             }
         }
         mp.put(currWord.toString(), mp.getOrDefault(currWord.toString(), 0) + 1);
