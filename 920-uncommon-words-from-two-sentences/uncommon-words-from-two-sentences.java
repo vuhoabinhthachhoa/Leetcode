@@ -4,20 +4,11 @@ class Solution {
         String s = s1 + " " + s2;
         StringBuilder currWord = new StringBuilder();
 
-        for(int i = 0; i < s.length() ; i++) {
-            if(s.charAt(i) == ' ') {
-                if(!currWord.isEmpty()) {
-                    int freq = mp.getOrDefault(currWord.toString(), 0);
-                    mp.put(currWord.toString(), freq + 1);
-                    currWord.setLength(0);
-                }
-            }
-            else {
-                currWord.append(s.charAt(i));
-            }
+        String[] words = s.split(" ");
+        for(String word : words) {
+            int freq = mp.getOrDefault(word.toString(), 0);
+            mp.put(word.toString(), freq + 1);
         }
-        mp.put(currWord.toString(), mp.getOrDefault(currWord.toString(), 0) + 1);
-        currWord.setLength(0);
 
         List<String> commons = new ArrayList<>();
         for(Map.Entry<String, Integer> entry : mp.entrySet()) {
