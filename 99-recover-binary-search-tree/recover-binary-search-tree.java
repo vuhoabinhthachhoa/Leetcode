@@ -19,6 +19,10 @@ class Solution {
         motherRoot = root;
         help(root, null, null);
     }
+
+    // Intuition: Once we find a pair of nodes that are not in order, we swap them and then start traversing the tree again from the mother root.
+    // We repeat this process until the tree is valid.
+    // The way how to find the pair of nodes that are not in order is the same as in Validate Binary Search Tree problem.
     void help(TreeNode root, TreeNode minNode, TreeNode maxNode) {
         if(root == null) {
             return;
