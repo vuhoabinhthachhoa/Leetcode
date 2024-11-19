@@ -13,9 +13,11 @@ var countValidSelections = function(nums) {
     let res = 0;
     for(let i = nums.length - 1; i >= 0 ;i--) {
         if(nums[i] === 0) {
+            // we can move either left or right
             if(sum === prefixSum[i]) {
                 res+=2;
             }
+            // we can only move to the side that has the greater prefix sum
             else if(Math.abs(sum - prefixSum[i]) === 1) {
                 res++;
             }
