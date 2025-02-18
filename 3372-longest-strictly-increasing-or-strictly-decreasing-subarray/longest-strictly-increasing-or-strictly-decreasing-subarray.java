@@ -1,32 +1,24 @@
 class Solution {
-     public int longestMonotonicSubarray(int[] nums) {
-        int left = 0;
+    public int longestMonotonicSubarray(int[] nums) {
         int res = 1;
-        // exceptional cases
-        if(nums.length == 1) {
-            return 1;
-        }
+        int decLength = 1;
+        int incLength = 1;
 
-        if(nums.length == 2) {
-            if(nums[0] == nums[1]) {
-                return 1;
+        for (int i = 1; i < nums.length; i++) {
+            if(nums[i] < nums[i-1]){
+                decLength++;
+                incLength = 1;
+                res = Math.max(res, decLength);
             }
-            return 2;
-        }
-        for(int right = 1 ; right < nums.length - 1 ; right ++) {
-            // we can't include the current num in this case
-            if(nums[right] == nums[right - 1]) {
-                left = right;
+            else if(nums[i] > nums[i-1]){
+                incLength++;
+                decLength = 1;
+                res = Math.max(res, incLength);
             }
-            // we update the res before checking because the current num is also in our current subarray
-            res = Math.max(res, right - left + 1);
-            if(nums[right] < nums[right - 1] && nums[right] < nums[right + 1] || nums[right] > nums[right - 1] && nums[right] > nums[right + 1]) {
-                left = right;
+            else {
+                incLength = 1;
+                decLength = 1;
             }
-        }
-        if(nums[nums.length - 1] != nums[nums.length - 2]) {
-            res = Math.max(res, (nums.length - 1) - left + 1);
-
         }
         return res;
     }
