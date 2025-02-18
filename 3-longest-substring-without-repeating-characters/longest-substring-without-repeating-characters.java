@@ -1,21 +1,17 @@
 class Solution {
-      public int lengthOfLongestSubstring(String s) {
+     public int lengthOfLongestSubstring(String s) {
         int left = 0;
+        // mp to store the index of the last occurrence of each character
         int[] mp = new int[256];
+        Arrays.fill(mp, -1);
         int res = 0;
         for(int right = 0; right < s.length() ; right++){
-            if(mp[s.charAt(right)] == 1) {
-                while(s.charAt(left) != s.charAt(right)){
-                    mp[s.charAt(left)]--;
-                    left++;
-                }
-                mp[s.charAt(left)]--;
-                left++;
+            if(left <= mp[s.charAt(right)]) {
+                left = mp[s.charAt(right)] + 1;
             }
             res = Math.max(res, right - left + 1);
-            mp[s.charAt(right)]++;
+            mp[s.charAt(right)] = right;
         }
         return res;
     }
-
 }
