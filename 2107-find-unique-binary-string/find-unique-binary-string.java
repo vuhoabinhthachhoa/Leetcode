@@ -1,25 +1,17 @@
 class Solution {
-    Set<String> set = new HashSet<>();
-
-    public String backtrack(String cur, int n) {
-        if(n == 0) {
-            if(!set.contains(cur)) {
-                return cur;
-            }
-            return "";
-        }
-        String res1 = backtrack(cur + '0', n - 1);
-        if(!res1.isEmpty()) return res1;
-        String res2 = backtrack(cur + '1', n - 1);
-        if(!res2.isEmpty()) return res2;
-        return "";
-    }
-
     public String findDifferentBinaryString(String[] nums) {
-        set.addAll(Arrays.asList(nums));
-        int n = nums[0].length();
-        String res = backtrack("", n);
-
-        return res;
+        int n=nums.length;
+        StringBuilder sb=new StringBuilder();
+        // we do this to ensure that our res string is different from ith string at ith char 
+        for(int i=0; i<n; i++){   
+            if(nums[i].charAt(i)=='0'){         
+                sb.append('1');
+            }else{
+                sb.append('0');
+            }            
+        }
+        
+        return sb.toString();
     }
+
 }
